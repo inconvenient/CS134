@@ -132,7 +132,7 @@ public class Enemy {
 			visible = false;
 		} else {
 			// patrol logic
-			if (this.x - playerX > 750 && !isAggroed) {
+			if (this.x - playerX > 450 && !isAggroed) {
 				// true if enemy is facing left, else false
 				animateDirection = patrol();
 			} else {

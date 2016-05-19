@@ -17,7 +17,7 @@ public class Player {
 	public Player(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.health = 50;
+		this.health = 75;
 		this.projectiles = new ArrayList<Projectile>();
 		hitbox = new AABB(x, y, 80, 95);
 	}

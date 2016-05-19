@@ -19,6 +19,7 @@ import Character.Enemy;
 import Character.Player;
 import Objects.BlackHole;
 import Objects.MinervaShip;
+import Objects.ZakuShip;
 import Projectiles.EnemyProjectiles;
 import Projectiles.Projectile;
 import Utilities.Camera;
@@ -32,7 +33,7 @@ public class MainLoop {
 
 	/*
 	 * SPRITE/BG INFORMATION SPRITE SIZE: 80W / 95H TILE SIZE: 128W / 128H
-	 * Minerva Ship : 500x300
+	 * Minerva Ship : 500x300 Zaku Ship: 540x260
 	 */
 
 	// GAME STATE VARIABLES
@@ -43,6 +44,9 @@ public class MainLoop {
 	// SCREEN RESOLUTION
 	private static final int xRes = 1280;
 	private static final int yRes = 1024;
+
+	// STATIC IMGS
+	static int endScreen;
 
 	// OPTIMIZATION VARIABLES
 	private static int startTile;
@@ -56,6 +60,7 @@ public class MainLoop {
 	private static ArrayList<BlackHole> blackHoleList;
 	private static long shotTimer = 0;
 	private static AABB prjHitBox;
+	private static boolean gameOver = false;
 
 	// GAME ENDING VARIABLES
 	private static int escapedZaku = 0;
@@ -83,6 +88,7 @@ public class MainLoop {
 	private static int bombTexture;
 	private static int eBombTexture;
 	private static int minervaSprite;
+	private static int zakuShipSprite;
 
 	// BACKGROUND DEFINITION
 	private static BackgroundDef gameBackground;
@@ -168,10 +174,17 @@ public class MainLoop {
 		EnemyProjectiles testBomb;
 		EnemyProjectiles testEBomb;
 
-		// --------- MINERVA SHIP
+		// --------- SHIPS
 		int[] minervaSize = { 500, 300 };
 		minervaSprite = glTexImageTGAFile(gl, "Minerva.tga", minervaSize);
 		MinervaShip minerva = new MinervaShip(0, 450);
+		int[] zakuShipSize = { 540, 260 };
+		zakuShipSprite = glTexImageTGAFile(gl, "ZakuShip.tga", zakuShipSize);
+		ZakuShip zakuShip = new ZakuShip(8900, 325);
+
+		// --------- STATIC IMGS
+		// int[] endScreenSize = { 400, 150 };
+		// endScreen = glTexImageTGAFile(gl, "EndScreen.tga", endScreenSize);
 
 		// --------- PLAYER ANIMATIONS
 
@@ -233,13 +246,88 @@ public class MainLoop {
 				zakuRunLeftData);
 		Enemy e2 = new Enemy(1025, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
 				zakuRunLeftData);
+		Enemy e3 = new Enemy(1300, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e4 = new Enemy(1500, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e5 = new Enemy(1700, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e6 = new Enemy(2500, 400, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e7 = new Enemy(3000, 25, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e8 = new Enemy(2700, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e9 = new Enemy(2900, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e10 = new Enemy(3250, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e11 = new Enemy(3750, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e12 = new Enemy(4150, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e13 = new Enemy(4450, 50, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e14 = new Enemy(4700, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e15 = new Enemy(4950, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e16 = new Enemy(5300, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e17 = new Enemy(5100, 65, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e18 = new Enemy(5600, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e19 = new Enemy(5875, 400, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e20 = new Enemy(6200, 768, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e21 = new Enemy(6520, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e22 = new Enemy(6850, 450, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e23 = new Enemy(7100, 600, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e24 = new Enemy(7400, 395, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e25 = new Enemy(7700, 400, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
+		Enemy e26 = new Enemy(8000, 300, zakuRunRight, zakuRunRightDef, zakuRunRightData, zakuRunLeft, zakuRunLeftDef,
+				zakuRunLeftData);
 		enemyList.add(e1);
 		enemyList.add(e2);
+		enemyList.add(e3);
+		enemyList.add(e4);
+		enemyList.add(e5);
+		enemyList.add(e6);
+		enemyList.add(e7);
+		enemyList.add(e8);
+		enemyList.add(e9);
+		enemyList.add(e10);
+		enemyList.add(e11);
+		enemyList.add(e12);
+		enemyList.add(e13);
+		enemyList.add(e14);
+		enemyList.add(e15);
+		enemyList.add(e16);
+		enemyList.add(e17);
+		enemyList.add(e18);
+		enemyList.add(e19);
+		enemyList.add(e20);
+		enemyList.add(e21);
+		enemyList.add(e22);
+		enemyList.add(e23);
+		enemyList.add(e24);
+		enemyList.add(e25);
 
 		// Obstacle List
 		blackHoleList = new ArrayList<BlackHole>();
 		BlackHole bh1 = new BlackHole(800, 300, blackHole, blackHoleDef, blackHoleData);
+		BlackHole bh2 = new BlackHole(1535, 450, blackHole, blackHoleDef, blackHoleData);
+		BlackHole bh3 = new BlackHole(2350, 500, blackHole, blackHoleDef, blackHoleData);
 		blackHoleList.add(bh1);
+		blackHoleList.add(bh2);
+		blackHoleList.add(bh3);
 
 		// --------- TIMING VARIABLES
 		long lastFrameNS;
@@ -340,7 +428,14 @@ public class MainLoop {
 					}
 					if (p1.getHealth() <= 0) {
 						playerDead = true;
+						gameOver = true;
 					}
+				}
+
+				// Check if player has reached the Zaku Ship
+				if (AABBIntersect(p1.getAABB(), zakuShip.getHitbox())) {
+					shouldExit = true;
+					gameOver = true;
 				}
 
 				// Move black holes
@@ -354,6 +449,7 @@ public class MainLoop {
 					for (BlackHole bh : blackHoleList) {
 						if (AABBIntersect(bh.getHitbox(), p1.getAABB())) {
 							playerDead = true;
+							gameOver = true;
 							System.out.println("GAME OVER! Be careful of the black holes!");
 						}
 					}
@@ -364,6 +460,7 @@ public class MainLoop {
 					for (Enemy e : enemyList) {
 						if (AABBIntersect(e.getHitbox(), p1.getAABB())) {
 							playerDead = true;
+							gameOver = true;
 							System.out.println("GAME OVER! Don't get hit by the Zaku's energy field!");
 						}
 					}
@@ -482,6 +579,10 @@ public class MainLoop {
 			if (AABBIntersect(camera.getAABB(), minerva.getHitbox())) {
 				glDrawSprite(gl, minervaSprite, minerva.getX() - camera.getX(), minerva.getY() - camera.getY(),
 						minervaSize[0], minervaSize[1]);
+			}
+			if (AABBIntersect(camera.getAABB(), zakuShip.getHitbox())) {
+				glDrawSprite(gl, zakuShipSprite, zakuShip.getX() - camera.getX(), zakuShip.getY() - camera.getY(),
+						zakuShipSize[0], zakuShipSize[1]);
 			}
 
 			// DRAW OBSTACLES

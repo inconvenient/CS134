@@ -6,7 +6,7 @@ public class BackgroundDef {
 	private Tile[] tiles;
 
 	public BackgroundDef(int image, boolean c, int start, int end) {
-		tiles = new Tile[(width * height)+1];
+		tiles = new Tile[(width * height) + 1];
 		// place tiles
 		for (int i = start; i < end; i++) {
 			tiles[i] = new Tile(image, c);
